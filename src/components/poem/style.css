@@ -1,0 +1,18 @@
+.poem.hover {
+    cursor: pointer;
+}
+.poem.hover:hover {
+    background-color: #403d3d;
+}
+.title {
+    font-size: 2em;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.author {
+    font-size: 1.2em;
+    font-weight: 500;
+    font-family: cursive;
+    text-transform: capitalize;
+}

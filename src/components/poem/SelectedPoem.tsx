@@ -51,8 +51,7 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = ({ poem, ...rest }) => {
                 style={{ top: scrolledTop + 20 }}
                 onClick={() => {
                     rest.history.push('/');
-                    setTimeout(removeSelected, 200);
-                    // removeSelected();
+                    removeSelected();
                 }}
             >
                 <path

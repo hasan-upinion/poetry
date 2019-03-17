@@ -1,3 +1,4 @@
+import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { rootContext } from '../../store';
 import PoemContainer from '../poem/PoemContainer';
@@ -6,7 +7,7 @@ export interface PoemsListProps {
     poemClicked(id: string, top: number, height: number);
 }
 
-const PoemsList: React.SFC<PoemsListProps> = ({ poemClicked }) => {
+const PoemsList: React.SFC<PoemsListProps> = observer(({ poemClicked }) => {
     const {
         poemStore: { getPoems: poems },
     } = useContext(rootContext);
@@ -19,10 +20,10 @@ const PoemsList: React.SFC<PoemsListProps> = ({ poemClicked }) => {
                     </React.Fragment>
                 ))
             ) : (
-                <div className='poemContent'>No poems yet!</div>
+                <div className="poemContent">No poems yet!</div>
             )}
         </React.Fragment>
     );
-};
+});
 
 export default PoemsList;

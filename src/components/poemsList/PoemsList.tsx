@@ -8,15 +8,19 @@ export interface PoemsListProps {
 
 const PoemsList: React.SFC<PoemsListProps> = ({ poemClicked }) => {
     const {
-        poemStore: { poems },
+        poemStore: { getPoems: poems },
     } = useContext(rootContext);
     return (
         <React.Fragment>
-            {poems.map((p) => (
-                <React.Fragment key={p.id}>
-                    <PoemContainer poemClicked={poemClicked} poem={p} />
-                </React.Fragment>
-            ))}
+            {poems.length ? (
+                poems.map((p) => (
+                    <React.Fragment key={p.id}>
+                        <PoemContainer poemClicked={poemClicked} poem={p} />
+                    </React.Fragment>
+                ))
+            ) : (
+                <div className='poemContent'>No poems yet!</div>
+            )}
         </React.Fragment>
     );
 };

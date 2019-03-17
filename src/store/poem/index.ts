@@ -1,51 +1,65 @@
-import { action, observable } from 'mobx';
+import { action, computed, observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { createContext } from 'react';
+import { auth, firestore, storage } from '../../firebase';
 import { Poem, UpdatePoem } from './types';
 
 export class PoemStore {
-    @persist('list') @observable poems: Poem[] = [
-        {
-            author: 'hasan',
-            title: 'some title',
-            id: 'ksjfladsf',
-            text: 'the text is here',
-        },
-        {
-            author: 'jamal',
-            title: 'some title',
-            id: 'ksjfladsfdsjfkaewbfvew',
-            text: 'اختر الحب. فمن دون حياة الحب العذبة, تمسي الحياة عبئاً ثقيلاً.',
-        },
-        {
-            author: 'kdjafuajfkads',
-            title: 'Lowe',
-            id: 'kadjsfljeiwfehnwdjsafadsffvlkw',
-            text:
-                'Out beyond ideas of wrong doing and right doing there is a field, I will meet you theresadklsdhfmnabdsfbewmnfben,bfn,abesfmnbaesfbm,abesf,mbe,fbesannbmnbfmnsabfmnaebsfmn,,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbf,basnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbfbasnbfdmnbfmdnasbfm,bdsa,fb,admsbfdmnsabfmndsabfmndasbfmnbdsafmnbsadfmnbdsamnfbdamsf,badsnbfmnabdsfmnbdsafmnbadmnsbfmnadsbfmnabdsfmnadsbff!',
-        },
-        {
-            author: 'rumi',
-            title: 'Love',
-            id: 'kadjsfljeiwfehnwfvlkw',
-            text:
-                'Out beyond ideas of wrong doing and right doing there is a field, I will meet you there!',
-        },
-    ];
+    @persist('list') @observable poems: Poem[] = [];
 
+    @computed
+    get getPoems(): Poem[] {
+        return this.poems;
+    }
+
+    @action
+    updatePoems = (poems: Poem[]) => {
+        this.poems = poems;
+    };
     @action
     getPoem = (id: string): Poem | undefined => {
         const needed = this.poems.find((p) => p.id === id);
         return needed;
-    }
+    };
     @action
-    addPoem = (title: string, text: string, author: string) => {
-        this.poems.push({
-            title,
-            text,
-            author,
-            timestamp: Date.now(),
-            id: Date.now().toString(),
+    addPoem = (
+        title: string,
+        text: string,
+        author: string,
+        file: File,
+    ): Promise<boolean> => {
+        return new Promise((resolve, reject) => {
+            const ref = storage().ref(`photos/${file.name}`);
+            const task = ref.put(file);
+            const user = auth().currentUser;
+            if (!user) return;
+            task.on('state_changed', null, null, () =>
+                ref
+                    .getDownloadURL()
+                    .then((imageSrc) =>
+                        firestore()
+                            .collection('/poems')
+                            .doc()
+                            .set({
+                                title,
+                                text,
+                                author,
+                                imageSrc,
+                                timestamp: firestore.Timestamp.fromMillis(
+                                    Date.now(),
+                                ),
+                            }),
+                    )
+                    .then(() => resolve(true))
+                    .catch((e) => {
+                        console.error(e);
+                        reject(false);
+                    }),
+            );
+            task.catch((e) => {
+                console.error(e);
+                reject(false);
+            });
         });
     };
 

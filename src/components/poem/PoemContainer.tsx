@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useState } from 'react';
-import { animated, useSpring } from 'react-spring';
+import React, { useContext } from 'react';
+import { animated, useSpring, useTransition } from 'react-spring';
+import { DELAY } from '../../constants';
 import { rootContext } from '../../store';
 import { Poem as PoemType } from '../../store/poem/types';
 import Poem from './Poem';
@@ -13,22 +14,38 @@ export interface PoemProps {
 }
 export interface PoemState {}
 
-const PoemContent: React.FC<PoemProps> = observer(
-    ({ poem,  showContent, poemClicked }) => {
+const PoemContainer: React.FC<PoemProps> = observer(
+    ({ poem, showContent, poemClicked }) => {
         const {
             settings: { isRtl },
-            selectedPoemStore: {selectedPoem}
+            selectedPoemStore: { selectedPoem },
         } = useContext(rootContext);
-        const [delay, setDelay] = useState(200);
-        const poemTextContainerProps = useSpring({
-            height: '66.66%',
-            from: { height: '0%' },
-            delay,
-        });
+
+        const poemTextContainerTransition = useTransition(
+            !!selectedPoem,
+            null,
+            {
+                enter: {
+                    height: '100%',
+                    opacity: 1,
+                    delay: DELAY,
+                },
+                leave: {
+                    height: '0%',
+                    opacity: 0,
+                    delay: DELAY,
+                },
+                from: {
+                    height: '0%',
+                    opacity: 0,
+                    delay: DELAY,
+                },
+            },
+        );
         const poemTextProps = useSpring({
             opacity: 1,
             from: { opacity: 0 },
-            delay: delay * 1.5,
+            delay: DELAY * 1.5,
         });
 
         const onClick = (e: React.MouseEvent) => {
@@ -45,8 +62,11 @@ const PoemContent: React.FC<PoemProps> = observer(
                     <div
                         className="wrapper"
                         style={{
-                            background:
-                                'url(/images/f1.jpg) no-repeat center center ',
+                            background: `url(${
+                                poem.imageSrc
+                                    ? poem.imageSrc
+                                    : '/images/default.jpg'
+                            }) no-repeat center center `,
                             backgroundSize: 'cover',
                         }}
                     />
@@ -63,24 +83,25 @@ const PoemContent: React.FC<PoemProps> = observer(
                         )}
                     </div>
                 </div>
-                {showContent && (
-                    <animated.div
-                        style={{
-                            ...poemTextContainerProps,
-                            display: selectedPoem ? 'inherit' : 'none',
-                        }}
-                    >
-                        <div className="poemTextContainer">
-                            <animated.div style={poemTextProps}>
-                                <div className={ `poemText ${isRtl ? 'rtl' : ''}` }>{poem.text}</div>
-                            </animated.div>
-                        </div>
-                    </animated.div>
-                )}
+                {showContent &&
+                    poemTextContainerTransition.map(
+                        ({ item, props, key }) =>
+                            item && (
+                                <animated.div key={key} style={props}>
+                                    <div className="poemTextContainer">
+                                        <animated.div style={poemTextProps}>
+                                            <div className="poemText">
+                                                {poem.text}
+                                            </div>
+                                        </animated.div>
+                                    </div>
+                                </animated.div>
+                            ),
+                    )}
             </React.Fragment>
         );
         // });
     },
 );
 
-export default PoemContent;
+export default PoemContainer;

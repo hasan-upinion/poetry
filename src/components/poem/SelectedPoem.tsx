@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { animated, useTransition } from 'react-spring';
 import { rootContext } from '../../store';
 import { Poem } from '../../store/poem/types';
 import PoemContainer from '../poem/PoemContainer';
 
-export interface SelectedPoemProps {
+export type SelectedPoemProps = Partial<RouteComponentProps> & {
     poem: Poem;
-}
+};
 
-const SelectedPoem: React.SFC<SelectedPoemProps> = ({  poem }) => {
+const SelectedPoem: React.SFC<SelectedPoemProps> = ({ poem, ...rest }) => {
     const {
         selectedPoemStore: { selectedPoem, removeSelected, lastSelected },
         settings: { isRtl },
@@ -37,6 +38,9 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = ({  poem }) => {
             top: (lastSelected && lastSelected.y) || 0,
         },
     });
+    useEffect(() => {
+        if (poem && selectedPoem) rest.history.push(`/poem/${poem.id}`);
+    }, [selectedPoem, poem]);
 
     // if(!noLastWasSelected) return null;
     return (
@@ -45,9 +49,13 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = ({  poem }) => {
                 className={`exit ${selectedPoem ? 'show' : 'out'} ${
                     isRtl ? 'rtl' : ''
                 }`}
-                style={{ top: scrolledTop + 20}}
+                style={{ top: scrolledTop + 20 }}
                 onClick={() => {
-                    removeSelected();
+                    rest.history.push('/');
+                    setTimeout(removeSelected, 200);
+                    setTimeout(removeSelected, 200);
+                    setTimeout(removeSelected, 200);
+                    // removeSelected();
                 }}
             >
                 <path
@@ -81,4 +89,4 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = ({  poem }) => {
     );
 };
 
-export default SelectedPoem;
+export default withRouter(SelectedPoem);

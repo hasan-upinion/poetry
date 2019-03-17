@@ -74,10 +74,9 @@ const App: React.FC<AppProps> = observer((props) => {
 
     function renderSelectedPoem(props) {
         const poem = getPoem(props.match.params.id);
-        if(!poem) return null;
-        if(!selectedPoem) setSelectedPoem(poem, 0);
+        if (!poem) return null;
+        if (!selectedPoem) setSelectedPoem(poem, 0);
         return null;
-
     }
     const poemClicked = (id: string, top: number) => {
         const poem = getPoem(id);
@@ -108,7 +107,7 @@ const App: React.FC<AppProps> = observer((props) => {
                         <Route
                             exact
                             path="/poem/:id"
-                            render={props => renderSelectedPoem(props)}
+                            render={(props) => renderSelectedPoem(props)}
                         />
                         <Protected path="/add" exact component={AddPoem} />
                         <Route path="/login" component={Login} />
@@ -116,8 +115,6 @@ const App: React.FC<AppProps> = observer((props) => {
                     <SelectedPoem poem={currPoem || selectedPoem} />
                 </div>
             </Router>
-            {/* <PoemsList poemClicked={poemClicked} />
-            <SelectedPoem poem={currPoem || selectedPoem} /> */}
         </div>
     );
 });

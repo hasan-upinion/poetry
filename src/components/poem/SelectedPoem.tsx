@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { animated, useTransition } from 'react-spring';
 import { rootContext } from '../../store';
 import { Poem } from '../../store/poem/types';
@@ -51,8 +51,10 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = ({ poem, ...rest }) => {
                 }`}
                 style={{ top: scrolledTop + 20 }}
                 onClick={() => {
-                    rest.history.push('/')
-                   setTimeout(removeSelected, 200); 
+                    rest.history.push('/');
+                    setTimeout(removeSelected, 200);
+                    setTimeout(removeSelected, 200);
+                    setTimeout(removeSelected, 200);
                     // removeSelected();
                 }}
             >

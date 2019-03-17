@@ -3,4 +3,23 @@
     justify-content: center;
     align-items: center;
     background-color: #2d2d2d2d;
+    height: 100vh;
+}
+
+.continue {
+    color: white;
+    background-color: transparent;
+}
+.loginButton {
+    background-color: #fffffff2;
+    color: #2d2d2d;
+    box-shadow: 0px 3px 5px 1px #ffffff2d;
+    transition: margin 0.2s ease-in-out, box-shadow 0.1s ease-in-out;
+}
+.loginButton:focus {
+    outline: none;
+}
+.loginButton:active {
+    box-shadow: 0px 0px 5px 0px #ffffff2d;
+    margin-top: 2px;
 }

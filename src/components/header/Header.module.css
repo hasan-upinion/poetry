@@ -1,0 +1,15 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-height: 70px;
+    background: #ffffffed;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container h2 {
+    margin-left: 10px;
+}

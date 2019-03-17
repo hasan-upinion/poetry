@@ -16,7 +16,6 @@ const Header: React.SFC<HeaderProps> = (props) => {
         userStore: { user },
         selectedPoemStore: { getSelectedPoem },
     } = useContext(rootContext);
-    console.log(props);
     const containerAnimationProps = useSpring({
         top: getSelectedPoem ? '-100%' : '0%',
         from: { top: getSelectedPoem ? '0%' : '-100%' },

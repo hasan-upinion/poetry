@@ -42,7 +42,6 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = ({ poem, ...rest }) => {
         if (poem && selectedPoem) rest.history.push(`/poem/${poem.id}`);
     }, [selectedPoem, poem]);
 
-    // if(!noLastWasSelected) return null;
     return (
         <React.Fragment>
             <svg
@@ -52,8 +51,6 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = ({ poem, ...rest }) => {
                 style={{ top: scrolledTop + 20 }}
                 onClick={() => {
                     rest.history.push('/');
-                    setTimeout(removeSelected, 200);
-                    setTimeout(removeSelected, 200);
                     setTimeout(removeSelected, 200);
                     // removeSelected();
                 }}

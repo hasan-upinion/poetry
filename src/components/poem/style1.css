@@ -1,7 +1,6 @@
 .poemContent {
     box-sizing: border-box;
     z-index: 3;
-    /* color: #ffffffc4; */
     color: white;
     max-height: 33.333vh;
     height: 100%;
@@ -36,6 +35,10 @@
     word-break: break-word;
     color: white;
     z-index: 3;
+}
+
+.update {
+    margin: 50px;
 }
 
 .leftBorder {
@@ -83,8 +86,6 @@
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     z-index: -2;
-    /* border-left: 2px solid white;
-    border-left: 2px solid white; */
 }
 .exit.show {
     z-index: 10;
@@ -92,6 +93,6 @@
 }
 
 .exit.out {
-    z-index: 0;
+    z-index: -10;
     opacity: 0;
 }

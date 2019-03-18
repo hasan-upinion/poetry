@@ -29,6 +29,7 @@ body {
     text-decoration: none;
     padding: 15px 30px;
     font-size: 1.2em;
+    line-height: 1.5em;
     font-weight: 600;
     cursor: pointer;
 }

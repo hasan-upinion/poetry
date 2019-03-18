@@ -48,6 +48,7 @@ const App: React.FC<AppProps> = observer(() => {
                         id,
                         timestamp,
                         imageSrc,
+                        imageName,
                     } = poem.data();
                     poems.push({
                         author,
@@ -56,6 +57,7 @@ const App: React.FC<AppProps> = observer(() => {
                         id: id || poem.id,
                         timestamp: timestamp || Date.now(),
                         imageSrc,
+                        imageName,
                     });
                 });
                 updatePoems(poems);

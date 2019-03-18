@@ -18,8 +18,9 @@ const Routes: React.SFC<RoutesProps> = (props) => {
     const [currPoem, setCurrPoem] = useState();
     function renderSelectedPoem(props: RouteComponentProps) {
         const poem = getPoem(props.match.params.id);
+        const updateRoute = props.location.state === 'update';
         if (!poem) return null;
-        if (!selectedPoem) setSelectedPoem(poem, 0);
+        if (!selectedPoem && !updateRoute) setSelectedPoem(poem, 0);
         return null;
     }
     const poemClicked = (id: string, top: number) => {
@@ -43,6 +44,7 @@ const Routes: React.SFC<RoutesProps> = (props) => {
                 />
                 <Route exact path="/poem/:id" render={renderSelectedPoem} />
                 <Protected path="/add" exact component={AddPoem} />
+                <Protected path="/update/:id" exact component={AddPoem} />
                 <Route path="/login" component={Login} />
             </Switch>
             <SelectedPoem poem={currPoem || selectedPoem} />

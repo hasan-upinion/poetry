@@ -3,6 +3,7 @@
     box-sizing: border-box;
     padding: 50px;
     height: 100%;
+    z-index: 20;
     /* padding-top: 60px; */
 }
 
@@ -21,6 +22,7 @@
 
 form textarea {
     min-height: 100px;
+    max-width: calc(100% - 25px);
 }
 
 form input[type='file'] {
@@ -40,4 +42,5 @@ form button {
 .back {
     align-self: flex-start;
     color: white;
+    background-color: transparent;
 }

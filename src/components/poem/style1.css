@@ -37,8 +37,12 @@
     z-index: 3;
 }
 
-.update {
-    margin: 50px;
+.buttons {
+    margin-left: 50px;
+}
+.buttons.rtl {
+    margin-left: 0px;
+    margin-right: 50px;
 }
 
 .leftBorder {

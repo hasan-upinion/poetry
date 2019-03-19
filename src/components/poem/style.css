@@ -1,3 +1,7 @@
+.poem {
+    padding: 10px;
+    box-sizing: border-box;
+}
 .poem.hover {
     cursor: pointer;
 }
@@ -5,7 +9,7 @@
     background-color: #403d3d;
 }
 .title {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: 700;
     text-transform: uppercase;
 }

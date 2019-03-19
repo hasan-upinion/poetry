@@ -35,11 +35,11 @@ const Header: React.SFC<HeaderProps> = (props) => {
                     Hello, <i>{user && user.userName}</i>
                 </h3>
             ) : (
-                <Link className="btn" to={inLoginRoute ? 'poems' : 'login'}>
+                <Link className="btn" to={inLoginRoute ? '/poems' : '/login'}>
                     {inLoginRoute ? 'Poems' : 'Login'}
                 </Link>
             )}
-            <Link className="btn" to="add">
+            <Link className="btn" to="/add">
                 Add Poem
             </Link>
         </animated.div>

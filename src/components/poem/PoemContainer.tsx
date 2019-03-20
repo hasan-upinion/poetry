@@ -3,6 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { animated, useSpring, useTransition } from 'react-spring';
 import { DELAY } from '../../constants';
 import { rootContext } from '../../store';
+import { allowedUser } from '../../store/poem';
 import { Poem as PoemType } from '../../store/poem/types';
 import Poem from './Poem';
 import './style1.css';
@@ -24,6 +25,7 @@ const PoemContainer: React.FC<PoemProps> = ({
     const {
         settings: { isRtl },
         selectedPoemStore: { selectedPoem, removeSelected },
+        userStore: { user },
     } = useContext(rootContext);
 
     const poemTextContainerTransition = useTransition(!!selectedPoem, null, {
@@ -48,6 +50,8 @@ const PoemContainer: React.FC<PoemProps> = ({
         from: { opacity: 0 },
         delay: DELAY * 1.5,
     });
+
+    const canUpdate = allowedUser((user && user.id) || '');
 
     const onClick = (e: React.MouseEvent) => {
         const { top, height } = e.currentTarget.getBoundingClientRect();
@@ -99,24 +103,27 @@ const PoemContainer: React.FC<PoemProps> = ({
                                                 isRtl ? 'rtl' : ''
                                             }`}
                                         >
-                                            <button
-                                                className="btn update"
-                                                onClick={() => {
-                                                    location.state = 'update';
-                                                    removeSelected();
-                                                    setTimeout(
-                                                        () =>
-                                                            history.replace(
-                                                                `/update/${
-                                                                    poem.id
-                                                                }`,
-                                                            ),
-                                                        200,
-                                                    );
-                                                }}
-                                            >
-                                                Update
-                                            </button>
+                                            {canUpdate && (
+                                                <button
+                                                    className="btn update"
+                                                    onClick={() => {
+                                                        location.state =
+                                                            'update';
+                                                        removeSelected();
+                                                        setTimeout(
+                                                            () =>
+                                                                history.replace(
+                                                                    `/update/${
+                                                                        poem.id
+                                                                    }`,
+                                                                ),
+                                                            200,
+                                                        );
+                                                    }}
+                                                >
+                                                    Update
+                                                </button>
+                                            )}
                                             <button
                                                 className={`btn back`}
                                                 onClick={() => {

@@ -33,6 +33,10 @@ body {
     font-weight: 600;
     cursor: pointer;
 }
+.btn.pink {
+    background: #F40365;
+    color: white;
+}
 
 .App-logo {
     animation: App-logo-spin infinite 20s linear;

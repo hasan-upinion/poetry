@@ -4,7 +4,11 @@
     padding: 50px;
     height: 100%;
     z-index: 20;
-    /* padding-top: 60px; */
+}
+@media (max-width: 768px) {
+    .form {
+        padding-top: 60px;
+    }
 }
 
 .form > *:not(.buttons) {
@@ -43,4 +47,8 @@ form button {
     align-self: flex-start;
     color: white;
     background-color: transparent;
+}
+
+.buttons {
+    margin: 0px !important;
 }

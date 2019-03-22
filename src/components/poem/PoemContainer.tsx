@@ -2,11 +2,13 @@ import React, { useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { animated, useSpring, useTransition } from 'react-spring';
 import { DELAY } from '../../constants';
+import { makeText } from '../../helpers/makeText';
 import { rootContext } from '../../store';
 import { allowedUser } from '../../store/poem';
 import { Poem as PoemType } from '../../store/poem/types';
+import Buttons from '../buttons/Buttons';
 import Poem from './Poem';
-import './style1.css';
+import './poetryContainer.css';
 
 export type PoemProps = Partial<RouteComponentProps> & {
     poem: PoemType;
@@ -28,7 +30,7 @@ const PoemContainer: React.FC<PoemProps> = ({
         userStore: { user },
     } = useContext(rootContext);
 
-    const poemTextContainerTransition = useTransition(!!selectedPoem, null, {
+    const poemContainerTransition = useTransition(!!selectedPoem, null, {
         enter: {
             height: '66.666%',
             opacity: 1,
@@ -50,7 +52,6 @@ const PoemContainer: React.FC<PoemProps> = ({
         from: { opacity: 0 },
         delay: DELAY * 1.5,
     });
-
     const canUpdate = allowedUser((user && user.id) || '');
 
     const onClick = (e: React.MouseEvent) => {
@@ -88,60 +89,30 @@ const PoemContainer: React.FC<PoemProps> = ({
                 </div>
             </div>
             {showContent &&
-                // !update &&
-                poemTextContainerTransition.map(
+                poemContainerTransition.map(
                     ({ item, props, key }) =>
                         item && (
                             <animated.div key={key} style={props}>
-                                <div className="poemTextContainer">
+                                <div className="poemContainer">
                                     <animated.div style={poemTextProps}>
                                         <div className="poemText">
-                                            {poem.text}
+                                        {poem.text}
                                         </div>
-                                        <div
-                                            className={`buttons ${
-                                                isRtl ? 'rtl' : ''
-                                            }`}
-                                        >
-                                            {canUpdate && (
-                                                <button
-                                                    className="btn update"
-                                                    onClick={() => {
-                                                        location.state =
-                                                            'update';
-                                                        removeSelected();
-                                                        setTimeout(
-                                                            () =>
-                                                                history.replace(
-                                                                    `/update/${
-                                                                        poem.id
-                                                                    }`,
-                                                                ),
-                                                            200,
-                                                        );
-                                                    }}
-                                                >
-                                                    Update
-                                                </button>
-                                            )}
-                                            <button
-                                                className={`btn back`}
-                                                onClick={() => {
-                                                    history.push('/');
-                                                    setTimeout(
-                                                        removeSelected,
-                                                        200,
-                                                    );
-                                                }}
-                                                style={{
-                                                    color: 'white',
-                                                    backgroundColor:
-                                                        'transparent',
-                                                }}
-                                            >
-                                                Back
-                                            </button>
-                                        </div>
+                                        <Buttons
+                                            disable={!canUpdate}
+                                            next={() => {
+                                                location.state = 'update';
+                                                removeSelected();
+                                                setTimeout(
+                                                    () => history.replace(`/update/${poem.id}`),
+                                                    200,
+                                                );
+                                            }}
+                                            back={() => {
+                                                history.push('/');
+                                                setTimeout(removeSelected, 200);
+                                            }} 
+                                        />
                                     </animated.div>
                                 </div>
                             </animated.div>

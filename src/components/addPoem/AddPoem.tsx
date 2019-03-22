@@ -4,6 +4,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { rootContext } from '../../store';
 import { Poem } from '../../store/poem/types';
 import styles from './AddPoem.module.css';
+import Buttons from '../buttons/Buttons';
 
 export interface AddPoemProps extends RouteComponentProps {}
 
@@ -22,9 +23,12 @@ const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
 
     const id = match.params.id || '';
     useEffect(() => {
-        if (!id) return;
-        setPoem(getPoem(id));
-    }, []);
+        let poem = {};
+        if (id) {
+            poem = getPoem(id); 
+        } 
+        setPoem(poem);
+    }, [id]);
     useEffect(() => {
         if (!poem.id || !id) return;
         const file = new File([poem.imageSrc], poem.imageName || 'image.jpg');
@@ -81,8 +85,9 @@ const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
                     style={{
                         width: 200,
                         height: 200,
+                        minHeight: 50,
                         background: `url(${currentImage ||
-                            poem.imageSrc}) no-repeat center center/contain `,
+                            poem.imageSrc || '/images/default.jpg'}) no-repeat center center/contain `,
                         backgroundSize: 'contain',
                     }}
                 />
@@ -103,14 +108,13 @@ const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
                     disabled={!isLoggedIn}
                 />
             </label>
-            <div className={styles.buttons}>
-                <button disabled={!isLoggedIn} type="submit" className="btn">
-                    {id ? 'Update' : 'Add'}
-                </button>
-                <Link to="/" className={`btn ${styles.back}`}>
-                    Back
-                </Link>
-            </div>
+            
+            <Buttons
+                disable={!isLoggedIn}
+                next={submit}
+                title={!id && 'Add'}
+                containerClassName={styles.buttons}
+            />
         </form>
     );
 });

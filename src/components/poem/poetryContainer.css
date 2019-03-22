@@ -19,7 +19,7 @@
 .poemContent.hover {
     cursor: pointer;
 }
-.poemTextContainer {
+.poemContainer {
     box-sizing: border-box;
     height: 100%;
     display: flex;
@@ -35,6 +35,11 @@
     word-break: break-word;
     color: white;
     z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+}
+.poemText > * {
+    width: calc(50% - 15px);
 }
 
 .buttons {
@@ -99,4 +104,15 @@
 .exit.out {
     z-index: -10;
     opacity: 0;
+}
+
+
+@media (min-width: 768px) {
+    .poemContainer {
+        /* width: 75%;
+        margin: 0 auto; */
+        /* display: flex;
+        justify-content: center; */
+        padding:
+    }
 }

@@ -8,11 +8,13 @@ export interface Poem {
     author: string;
     text: string;
     title: string;
-    timestamp?: number;
-    imageSrc?: string;
     id: string;
+    userId?: string;
     selected?: Poem;
     y?: number;
+    timestamp?: number;
+    imageSrc?: string;
+    imageName?: string;
 }
 
 export interface PoemState {
@@ -32,7 +34,7 @@ export interface UpdatePoem {
     author?: string;
     text: string;
     title: string;
-    id: string;
+    id?: string;
 }
 
 interface UpdatePoemAction {

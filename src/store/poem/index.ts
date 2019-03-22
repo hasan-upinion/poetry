@@ -86,7 +86,6 @@ function updateWithBlob(
     ref: firebase.storage.Reference,
     imageName: string,
 ) {
-    if (!allowedUser(poem.userId)) return Promise.reject('Not allowed user!');
     return ref.getDownloadURL().then((imageSrc) =>
         poem.id
             ? firestore()
@@ -111,7 +110,6 @@ function updateWithBlob(
 }
 
 function updateText(poem: Poem) {
-    if (!allowedUser(poem.userId)) return Promise.reject('Not allowed user!');
     return poem.id
         ? firestore()
               .collection('/poems')

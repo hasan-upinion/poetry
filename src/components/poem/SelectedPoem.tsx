@@ -74,7 +74,7 @@ const SelectedPoem: React.SFC<SelectedPoemProps> = observer(
                         d="M6.25,17.75,17.75,6.25"
                     />
                 </svg>
-                {selectedPoem && <div className="wrapper" />}
+                {/* {selectedPoem && <div className="wrapper" />} */}
                 {transitions.map(({ key, props, item }) => {
                     return (
                         item && (

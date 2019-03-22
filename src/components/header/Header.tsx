@@ -1,10 +1,5 @@
 import React, { useContext } from 'react';
-import {
-    Link,
-    matchPath,
-    RouteComponentProps,
-    withRouter,
-} from 'react-router-dom';
+import { Link, matchPath, RouteComponentProps, withRouter } from 'react-router-dom';
 import { animated, useSpring } from 'react-spring';
 import { rootContext } from '../../store';
 import styles from './Header.module.css';
@@ -32,7 +27,12 @@ const Header: React.SFC<HeaderProps> = (props) => {
         >
             {user ? (
                 <h3>
-                    Hello, <i>{user && user.userName}</i>
+                    <img
+                        src={user && user.avatar}
+                        alt="username"
+                        className={styles.avatar}
+                    />
+                    Hello,&nbsp;<i>{user && user.userName}</i>
                 </h3>
             ) : (
                 <Link className="btn" to={inLoginRoute ? '/poems' : '/login'}>

@@ -31,6 +31,7 @@ const App: React.FC<AppProps> = observer(() => {
                     id: user.uid,
                     loggedIn: true,
                     userName: user.displayName,
+                    avatar: user.photoURL,
                 });
             } else {
                 setUser(null);

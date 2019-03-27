@@ -39,6 +39,7 @@ const App: React.FC<AppProps> = observer(() => {
         });
         firestore()
             .collection('/poems')
+            .orderBy('timestamp', 'desc')
             .onSnapshot((snapshot) => {
                 const poems = [];
                 snapshot.forEach((poem) => {

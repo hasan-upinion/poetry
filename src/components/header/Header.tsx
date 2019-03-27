@@ -1,5 +1,10 @@
 import React, { useContext } from 'react';
-import { Link, matchPath, RouteComponentProps, withRouter } from 'react-router-dom';
+import {
+    Link,
+    matchPath,
+    RouteComponentProps,
+    withRouter,
+} from 'react-router-dom';
 import { animated, useSpring } from 'react-spring';
 import { rootContext } from '../../store';
 import styles from './Header.module.css';
@@ -28,7 +33,9 @@ const Header: React.SFC<HeaderProps> = (props) => {
             {user ? (
                 <h3>
                     <img
-                        src={user && user.avatar}
+                        src={
+                            (user && user.avatar) || '/images/defaultAvatar.png'
+                        }
                         alt="user"
                         className={styles.avatar}
                     />

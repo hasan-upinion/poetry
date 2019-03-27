@@ -105,3 +105,7 @@
     z-index: -10;
     opacity: 0;
 }
+
+.updateContainer {
+    margin-bottom: 10px;
+}

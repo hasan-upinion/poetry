@@ -99,6 +99,7 @@ const PoemContainer: React.FC<PoemProps> = ({
                                         {poem.text}
                                         </div>
                                         <Buttons
+                                            containerClassName="updateContainer"
                                             disable={!canUpdate}
                                             next={() => {
                                                 location.state = 'update';

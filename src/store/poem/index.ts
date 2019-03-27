@@ -26,7 +26,6 @@ export class PoemStore {
         return new Promise((resolve, reject) => {
             const user = auth().currentUser;
             if (!user) return reject('No user recognized');
-            console.log(user.uid, poem.userId);
             if (!allowedUser(poem.userId)) return reject('Not allowed user!');
             if (poem.imageName !== file.name) {
                 if (poem.imageSrc && poem.imageName) {

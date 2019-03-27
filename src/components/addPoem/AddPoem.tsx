@@ -1,17 +1,17 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { rootContext } from '../../store';
 import { Poem } from '../../store/poem/types';
-import styles from './AddPoem.module.css';
 import Buttons from '../buttons/Buttons';
+import styles from './AddPoem.module.css';
 
 export interface AddPoemProps extends RouteComponentProps {}
 
 const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
     const {
         poemStore: { addPoem, getPoem },
-        userStore: { isLoggedIn },
+        userStore: { isLoggedIn, user },
     } = useContext(rootContext);
 
     const [currentImage, setCurrentImage] = useState(null);
@@ -25,8 +25,8 @@ const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
     useEffect(() => {
         let poem = {};
         if (id) {
-            poem = getPoem(id); 
-        } 
+            poem = getPoem(id);
+        }
         setPoem(poem);
     }, [id]);
     useEffect(() => {
@@ -40,7 +40,7 @@ const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
         if (!file) {
             return setError('Please make sure to choose an image!');
         }
-        const result = await addPoem(poem, file);
+        const result = await addPoem({ ...poem, userId: user.id }, file);
         if (!result) {
             console.error(result);
             setError('Something has gone wrong!');
@@ -87,7 +87,8 @@ const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
                         height: 200,
                         minHeight: 50,
                         background: `url(${currentImage ||
-                            poem.imageSrc || '/images/default.jpg'}) no-repeat center center/contain `,
+                            poem.imageSrc ||
+                            '/images/default.jpg'}) no-repeat center center/contain `,
                         backgroundSize: 'contain',
                     }}
                 />
@@ -108,7 +109,7 @@ const AddPoem: React.SFC<AddPoemProps> = observer(({ history, match }) => {
                     disabled={!isLoggedIn}
                 />
             </label>
-            
+
             <Buttons
                 disable={!isLoggedIn}
                 next={submit}

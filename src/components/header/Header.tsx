@@ -29,7 +29,7 @@ const Header: React.SFC<HeaderProps> = (props) => {
                 <h3>
                     <img
                         src={user && user.avatar}
-                        alt="username"
+                        alt="user"
                         className={styles.avatar}
                     />
                     Hello,&nbsp;<i>{user && user.userName}</i>

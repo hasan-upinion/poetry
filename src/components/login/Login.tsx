@@ -39,7 +39,7 @@ const Login: React.SFC<LoginProps> = (props) => {
     return (
         <div className={styles.container}>
             <button className={`btn ${styles.loginButton} `} onClick={login}>
-                Login
+                Login with Google
             </button>
             <button
                 className={`btn ${styles.continue}`}

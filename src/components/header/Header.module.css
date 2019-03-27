@@ -17,6 +17,11 @@
     margin-left: 10px;
 }
 
+.container h3.rtl {
+    margin-left: 0px;
+    margin-right: 10px;
+}
+
 .avatar {
     max-width: 50px;
     max-height: 50px;

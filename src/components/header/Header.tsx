@@ -15,6 +15,7 @@ const Header: React.SFC<HeaderProps> = (props) => {
     const {
         userStore: { user },
         selectedPoemStore: { getSelectedPoem },
+        settings: { isRtl },
     } = useContext(rootContext);
     const containerAnimationProps = useSpring({
         top: getSelectedPoem ? '-100%' : '0%',
@@ -31,7 +32,7 @@ const Header: React.SFC<HeaderProps> = (props) => {
             className={styles.container}
         >
             {user ? (
-                <h3>
+                <h3 className={isRtl ? styles.rtl : ''}>
                     <img
                         src={
                             (user && user.avatar) || '/images/defaultAvatar.png'

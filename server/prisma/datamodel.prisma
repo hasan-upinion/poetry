@@ -1,0 +1,27 @@
+
+type User {
+    id: ID! @id
+    email: String! @unique
+    poems: [Poem!]! @relation(name: "PoemAuther")
+    loggedIn: Boolean!
+    userName: String!
+    avatar: String!
+    password: String!
+}
+
+type Poem {
+    id: ID! @id
+    title: String!
+    text: String!
+    author: User! @relation(name: "PoemAuther")
+    imageSrc: String!
+    imageName: String!
+    status: Status! @default(value: PUBLIC)
+    timestamp: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
+}
+
+enum Status {
+    PUBLIC
+    PRIVATE
+}

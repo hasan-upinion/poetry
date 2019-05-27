@@ -1,0 +1,69 @@
+body {
+    height: 100%;
+    background-color: #2d2d2d;
+}
+.App {
+    height: 100vh;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    filter: brightness(.7) grayscale(0.2);
+}
+
+.btn {
+    border: none;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn.pink {
+    background: #F40365;
+    color: white;
+}
+
+.App-logo {
+    animation: App-logo-spin infinite 20s linear;
+    height: 40vmin;
+    pointer-events: none;
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

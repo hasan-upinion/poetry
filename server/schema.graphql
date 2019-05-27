@@ -1,0 +1,60 @@
+type UserAuth {
+    token: String!
+    user: User!
+}
+
+type User {
+    id: ID!
+    email: String!
+    loggedIn: Boolean!
+    userName: String!
+    avatar: String!
+    poems: [Poem!]!
+}
+
+type Poem {
+    id: ID!
+    title: String!
+    text: String!
+    author: User!
+    imageSrc: String!
+    imageName: String!
+    status: Status
+    timestamp: String!
+    updatedAt: String!
+}
+enum Status {
+    PUBLIC
+    PRIVATE
+}
+
+input PoemInput {
+    title: String!
+    text: String!
+    imageSrc: String!
+    imageName: String!
+    author: ID!
+    status: Status
+}
+
+type Query {
+    users: [User!]!
+    user(userId: String!): User!
+    poems: [Poem!]!
+}
+
+type Mutation {
+    createPoem(test: String): Poem
+    # updatePoem(input: PoemInput): Poem!
+    login(email: String!, password: String!): UserAuth!
+    signup(
+        email: String!
+        password: String!
+        userName: String!
+        avatar: String!
+    ): UserAuth!
+}
+
+type Subscription {
+    newPoem: Poem!
+}

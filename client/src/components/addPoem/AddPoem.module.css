@@ -1,0 +1,54 @@
+.form {
+    align-items: stretch;
+    box-sizing: border-box;
+    padding: 50px;
+    height: 100%;
+    z-index: 20;
+}
+@media (max-width: 768px) {
+    .form {
+        padding-top: 60px;
+    }
+}
+
+.form > *:not(.buttons) {
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    text-transform: capitalize;
+}
+
+.form > *:focus {
+    outline: none;
+}
+
+form textarea {
+    min-height: 100px;
+    max-width: calc(100% - 25px);
+}
+
+form input[type='file'] {
+    display: none;
+}
+
+form label {
+    color: white;
+    border: 1px solid white !important;
+}
+
+form button {
+    background-color: #ffff;
+    border-radius: 10px;
+}
+
+.back {
+    align-self: flex-start;
+    color: white;
+    background-color: transparent;
+}
+
+.buttons {
+    margin: 0px !important;
+}
